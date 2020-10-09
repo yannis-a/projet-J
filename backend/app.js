@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const stuffRoutes = require('./routes/stuff');
-const userRoutes = require('./routes/user')
+const userRoutes = require('./routes/user');
+const path = require('path');
 
 const app = express();
 
@@ -23,6 +24,12 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+/*
+Nous devons indiquer à notre app.js comment traiter les requêtes vers la route /image , pour cela il faut indiquer à
+Express qu'il faut gérer la ressource images de manière statique (un sous-répertoire de notre répertoire de base, __dirname )
+à chaque fois qu'elle reçoit une requête vers la route /images
+ */
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/stuff', stuffRoutes);
 app.use('api/auth', userRoutes)
 
